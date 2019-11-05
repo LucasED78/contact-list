@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 class ContactList extends StatelessWidget {
 
   final Contact contact;
+  final Function contactScreen;
 
-  ContactList(@required this.contact){
+  ContactList(@required this.contact, {this.contactScreen}){
+    print(this.contact);
     assert(this.contact != null);
   }
 
@@ -25,8 +27,8 @@ class ContactList extends StatelessWidget {
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: contact.img != null ? FileImage(File(contact.img)) :
-                        Icon(Icons.person, color: Colors.black12,)
+                        image: FileImage(File('a.jpg'))/*contact.img != null ? FileImage(File(contact.img)) :
+                        Icon(Icons.person, color: Colors.black12,)*/
                     )
                 ),
               ),
@@ -47,6 +49,7 @@ class ContactList extends StatelessWidget {
           ),
         ),
       ),
+      onTap: () => contactScreen(contact: contact),
     );
   }
 }

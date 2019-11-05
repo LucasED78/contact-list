@@ -24,10 +24,10 @@ class ContactHelper{
 
   Future<Database> initDb() async{
     final databasePath = await getDatabasesPath();
-    final path = join(databasePath, 'contact.db');
+    final path = join(databasePath, 'contacts.db');
 
     return await openDatabase(path, version: 1, onCreate:(Database db, int newerVersion) async{
-      await db.execute("CREATE TABLE contacts(id INTEGER, name TEXT, email TEXT, phone TEXT, img TEXT)");
+      await db.execute("CREATE TABLE contacts(id INTEGER PRIMARY KEY, name TEXT, email TEXT, phone TEXT, img TEXT)");
     });
   }
 
@@ -104,6 +104,7 @@ class Contact{
   }
 
   Map toMap(){
+    print('id $id');
     Map<String, dynamic> map = {
       'name': name,
       'email': email,

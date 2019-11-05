@@ -1,5 +1,6 @@
 import 'package:agenda_contatos/contact_helper/contat_helper.dart';
 import 'package:agenda_contatos/ui/widgets/contact_list.dart';
+import 'package:agenda_contatos/ui/widgets/contact_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,11 +17,7 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
 
-    helper.getContacts().then((contacts){
-      setState(() {
-        this.contacts = contacts;
-      });
-    });
+    _getAllContacts();
   }
 
   @override
@@ -34,16 +31,40 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add, color: Colors.white,),
         backgroundColor: Colors.teal,
-        onPressed: null,
+        onPressed: _showContactScreen
       ),
       backgroundColor: Colors.white,
       body: ListView.builder(
         padding: EdgeInsets.only(left: 15, right: 15),
         itemCount: contacts.length,
         itemBuilder: (context, index){
-          return ContactList(contacts[index]);
+          return ContactList(contacts[index], contactScreen: _showContactScreen);
         }
       ),
     );
+  }
+
+  void _showContactScreen({Contact contact}) async{
+    Contact _recContact = await Navigator.push(context, 
+      MaterialPageRoute(builder: (context) => ContactScreen(contact: contact,))
+    );
+
+    if (_recContact != null){
+      if (contact != null){
+        helper.updateContact(_recContact);
+      }else{
+        helper.saveContact(_recContact);
+      }
+
+      _getAllContacts();
+    }
+  }
+
+  void _getAllContacts() async{
+    helper.getContacts().then((contacts){
+      setState(() {
+        this.contacts = contacts;
+      });
+    });
   }
 }
