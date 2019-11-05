@@ -38,7 +38,10 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.only(left: 15, right: 15),
         itemCount: contacts.length,
         itemBuilder: (context, index){
-          return ContactList(contacts[index], contactScreen: _showContactScreen);
+          return ContactList(contacts[index], (){
+            helper.deleteContact(contacts[index].id).then((value) => _getAllContacts());
+            Navigator.pop(context);
+          }, contactScreen: _showContactScreen);
         }
       ),
     );
@@ -48,6 +51,8 @@ class _HomePageState extends State<HomePage> {
     Contact _recContact = await Navigator.push(context, 
       MaterialPageRoute(builder: (context) => ContactScreen(contact: contact,))
     );
+
+    print("rec: $_recContact");
 
     if (_recContact != null){
       if (contact != null){

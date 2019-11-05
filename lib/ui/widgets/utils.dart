@@ -22,4 +22,17 @@ class UtilsWidget {
       onChanged: onChanged,
     );
   }
+
+  static buildAlert(BuildContext context, {String title, String content, List<Widget> actions}){
+    return showDialog(
+      context: context,
+      builder: (context){
+        return AlertDialog(
+          title: Text(title),
+          content: content != null ? Text(content) : Text(''),
+          actions: actions,
+        );
+      }
+    );
+  }
 }

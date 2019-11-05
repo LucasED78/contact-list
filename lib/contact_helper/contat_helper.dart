@@ -58,7 +58,7 @@ class ContactHelper{
 
    return await dbContact.delete('contacts',
       where: 'id = ?',
-      whereArgs: ['id']
+      whereArgs: [id]
     );
   }
 
